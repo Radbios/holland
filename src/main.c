@@ -35,6 +35,10 @@ int main(){
         population = init_population(population);
         population = fitness(population);
         population = population_sort(population);
+
+        // INICIAR PROGRESSO
+        printf("\x1b[32mprocess in: %.2f%%\x1b[0m\n", ((float)i/LOOPS)*100);
+
         while (population.individuals[0].fitness != GEN_SIZE/2)
         {
             children.size = 0;
@@ -57,6 +61,13 @@ int main(){
         }
         generation += population.generation;
         data[i] = population.generation;
+
+        printf("\x1b[A"); // MOVER PONTEIRO PARA CIMA
+
+        // MOSTRAR PROGRESSO
+        printf("\x1b[32mprocess in: %.2f%%\x1b[0m\n", ((float)i/LOOPS)*100);
+
+        printf("\x1b[A");// MOVER PONTEIRO PARA CIMA
     }
 
     // --- PRINTAR RESULTADO ---
@@ -96,7 +107,7 @@ int main(){
 
     fprintf(gnuplot, "unset key\n");
     fprintf(gnuplot, "set terminal png size %d,%d\n", X_RANGE, Y_RANGE);
-    fprintf(gnuplot, "set output 'graphs/%s.png\n", FILENAME);
+    fprintf(gnuplot, "set output 'graphs/GEN%d_POP%d_CROSS%d_MUT%d_LOOPS%d.png\n", GEN_SIZE, POP_SIZE, CROSS_RATE, MUT_RATE, LOOPS);
     fprintf(gnuplot, "plot 'data.csv' w lp\n");
     fflush(gnuplot);
     fclose(gnuplot);
