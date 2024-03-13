@@ -99,6 +99,7 @@ int main(){
     fprintf(gnuplot, "set output 'graphs/%s.png\n", FILENAME);
     fprintf(gnuplot, "plot 'data.csv' w lp\n");
     fflush(gnuplot);
+    fclose(gnuplot);
 
     // int i, j;
     // for (i = 0; i < POP_SIZE; i++)
