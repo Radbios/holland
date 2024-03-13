@@ -8,6 +8,7 @@
 
 typedef struct{
     float 
+        sum,
         mean,
         median,
         min,
@@ -16,9 +17,7 @@ typedef struct{
 
 Statistics calculate_statistics(float dataset[], int length)
 {
-    Statistics summary = {.min = dataset[0], .max = 0};
-
-    float sum = 0;
+    Statistics summary = {.sum = 0, .min = dataset[0], .max = 0};
 
     for (int i = 0; i < length; i++)
     {
@@ -28,10 +27,10 @@ Statistics calculate_statistics(float dataset[], int length)
         // --- VALOR MÁXIMO ---
         if(dataset[i] > summary.max) summary.max = dataset[i];
 
-        sum += dataset[i];
+        summary.sum += dataset[i];
     }
 
-    summary.mean = sum/length;
+    summary.mean = summary.sum/length;
 
     if(length%2 == 0) summary.median = (dataset[length/2] + dataset[(length/2) - 1])/2;
     else summary.median = dataset[length/2];
