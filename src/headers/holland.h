@@ -1,14 +1,15 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <time.h>
+#ifndef HOLLAND_H
+#define HOLLAND_H
 
-// --- DEFINES ---
-#define GEN_SIZE 8
+#define GEN_SIZE 16
 #define POP_SIZE 10
 #define MUT_RATE 80
 #define CROSS_RATE 70
-// ---
+
+#ifndef STDLIB_H
+#include <stdlib.h>
+#define STDLIB_H
+#endif
 
 // --- STRUCTS ---
 typedef struct{
@@ -21,6 +22,7 @@ typedef struct{
     int size;
     int generation;
 } Population;
+
 // ---
 
 // --- CHECAR ADAPTAÇÃO ---
@@ -139,6 +141,8 @@ Population mutation(Population parents, Population children){
 }
 // ---
 
+
+
 // --- OPERAÇÃO SUBSTITUIÇÃO ---
 Population substitution(Population old_population, Population children){
     Population new_population;
@@ -163,53 +167,4 @@ Population substitution(Population old_population, Population children){
 }
 // ---
 
-// --- FUNÇAO PRINCIPAL ---
-int main(){
-
-    Population population;
-    Population children;
-    Population parents;
-
-    srand(time(NULL));
-    
-    population.generation = 0;
-    population = init_population(population);
-    population = fitness(population);
-    population = population_sort(population);
-
-    while (population.individuals[0].fitness != GEN_SIZE/2)
-    {
-        children.size = 0;
-        parents.size = 0;
-
-        // --- SELEÇÃO ---
-        parents = select_parents(population, parents);
-        // --- CRUZAMENTO ---
-        children = crossover(parents, children);
-        // --- MUTATION ---
-        children = mutation(parents, children);
-        // --- INVERSION ---
-        // ???
-        // --- FITNEES ---
-        children = fitness(children);
-        // --- SORT ---
-        children = population_sort(children);
-        // --- SUBSTITUTION ---
-        population = substitution(population, children);
-    }
-
-    // --- PRINTAR POPULAÇÃO ---
-    int i, j;
-    printf("Generation: %d\n", population.generation);
-    for (i = 0; i < POP_SIZE; i++)
-    {
-        for (j = 0; j < GEN_SIZE; j++)
-        {
-            printf("%d ", population.individuals[i].genes[j]);
-        } 
-        printf("Value : %d\n", population.individuals[i].fitness);
-    }
-    // ---
-    return 0;
-}
-// ---
+#endif
