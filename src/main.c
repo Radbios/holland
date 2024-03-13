@@ -3,7 +3,7 @@
 #include "headers/holland.h"
 
 #define LOOPS 100
-#define FILENAME "execution_x_generation"
+#define FILENAME "execution_x_generation2"
 #define TITLE "Execution x Generation (without rules)"
 #define X_LABEL "Execution"
 #define Y_LABEL "Generation"

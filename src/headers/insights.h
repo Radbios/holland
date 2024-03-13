@@ -59,4 +59,15 @@ void save_data_in_file(char *filename, float dataset[], int length)
     fclose(file);
 }
 
+// int data[] = {1, 2, 3, 4, 5, 6};
+// int column = 2;
+// for (size_t i = 0; i < 3; i++)
+// {
+//     for (size_t j = 0; j < 2; j++)
+//     {
+//         printf("%d ", data[i * column + j]);
+//     }
+//     printf("\n");
+// }
+
 #endif // INSIGHTS_H
