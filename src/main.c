@@ -116,15 +116,7 @@ int main(){
         fclose(gnuplot);
     }
 
-    int i, j;
-    for (i = 0; i < POP_SIZE; i++)
-    {
-        for (j = 0; j < GEN_SIZE; j++)
-        {
-            printf("%d ", population.individuals[i].genes[j]);
-        } 
-        printf("Value : %d\n", population.individuals[i].fitness);
-    }
+    print_individuals(population, 5);
     
     return 0;
 }
