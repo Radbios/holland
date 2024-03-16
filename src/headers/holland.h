@@ -167,4 +167,21 @@ Population substitution(Population old_population, Population children){
 }
 // ---
 
+// --- PRINTAR INDIVIDUOS --- 
+
+void print_individuals(Population population, int length)
+{
+    int i, j;
+    for (i = 0; i < length; i++)
+    {
+        for (j = 0; j < GEN_SIZE; j++)
+        {
+            printf("%d ", population.individuals[i].genes[j]);
+        } 
+        printf("Value : %d\n", population.individuals[i].fitness);
+    }
+}
+
+// ---
+
 #endif
