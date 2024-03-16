@@ -1,7 +1,7 @@
 #ifndef HOLLAND_H
 #define HOLLAND_H
 
-#define GEN_SIZE 16
+#define GEN_SIZE 8
 #define POP_SIZE 10
 #define MUT_RATE 80
 #define CROSS_RATE 70
@@ -45,12 +45,37 @@ Population init_population(Population population){
     int i, j;
     population.size = POP_SIZE;
     for (i = 0; i < POP_SIZE; i++){
+        population.individuals[i].fitness = 0;
         for (j = 0; j < GEN_SIZE; j++){
             population.individuals[i].genes[j] = rand() % 2;
         }
     }
     return population;
 }
+// ---
+
+// --- INICIAR SCHEMA ---
+
+Individual load_schema(Population population, Individual schema, int length)
+{
+    schema.fitness = 0;
+    int i, j;
+    for (i = 0; i < GEN_SIZE; i++)
+    {
+        schema.genes[i] = population.individuals[0].genes[i];
+        for (j = 0; j < length; j++)
+        {
+            if(schema.genes[i] != population.individuals[j].genes[i])
+            {
+                schema.genes[i] = -1;
+                break;
+            }
+            else if(j == length - 1) schema.genes[i] = population.individuals[j].genes[i];
+        } 
+    }
+    return schema;
+}
+
 // ---
 
 // --- ORDENAR POPULAÇÃO PELO FITNESS ---
@@ -73,9 +98,9 @@ Population population_sort(Population population){
 // ---
 
 // --- SELECIONAR PAI ---
-Population select_parents(Population population, Population parents){
+Population select_parents(Population population, Population parents, int length){
     int i;
-    parents.size = 5;
+    parents.size = length;
     for (i = 0; i < parents.size; i++)
     {
         parents.individuals[i] = population.individuals[i];
@@ -141,11 +166,33 @@ Population mutation(Population parents, Population children){
 }
 // ---
 
+int individual_is_equal(Individual ind1, Individual ind2)
+{
+    if(ind1.fitness != ind2.fitness) return 0;
 
+    for (int i = 0; i < GEN_SIZE; i++)
+    {
+        if(ind1.genes[i] != ind2.genes[i]) return 0;
+    }
+
+    return 1;
+}
+
+int individual_exist(Individual individual, Population population)
+{
+    int exist = 0;
+    for (int i = 0; i < population.size; i++)
+    {
+        exist = individual_is_equal(individual, population.individuals[i]);
+
+        if(exist) break;
+    }
+    return exist;
+}
 
 // --- OPERAÇÃO SUBSTITUIÇÃO ---
 Population substitution(Population old_population, Population children){
-    Population new_population;
+    Population new_population = { .size = 0 };
     int i, j, index_old_population = 0, index_children_population = 0;
     for (i = 0; i < POP_SIZE; i++)
     {
@@ -160,16 +207,16 @@ Population substitution(Population old_population, Population children){
             }
         }
         else new_population.individuals[i] = old_population.individuals[index_old_population];
+        new_population.size++;
     }
-    new_population.size = POP_SIZE;
     new_population.generation = old_population.generation + 1;
     return new_population;
 }
 // ---
 
-// --- PRINTAR INDIVIDUOS --- 
+// --- PRINTAR POPULAÇÃO --- 
 
-void print_individuals(Population population, int length)
+void print_population(Population population, int length)
 {
     int i, j;
     for (i = 0; i < length; i++)
@@ -180,6 +227,20 @@ void print_individuals(Population population, int length)
         } 
         printf("Value : %d\n", population.individuals[i].fitness);
     }
+}
+
+// ---
+
+// --- PRINTAR INDIVIDUO --- 
+
+void print_individual(Individual individual)
+{
+    int i;
+    for (i = 0; i < GEN_SIZE; i++)
+    {
+        printf("%d ", individual.genes[i]);
+    } 
+    printf("Value : %d\n", individual.fitness);
 }
 
 // ---

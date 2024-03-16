@@ -2,8 +2,10 @@
 #include "headers/insights.h"
 #include "headers/holland.h"
 
-#define LOOPS 1
+#define LOOPS 100
+
 #define GRAPH 0
+
 #define FILENAME "execution_x_generation2"
 #define TITLE "Execution x Generation (without rules)"
 #define X_LABEL "Execution"
@@ -41,16 +43,18 @@ int main(){
 
         while (population.individuals[0].fitness != GEN_SIZE/2)
         {
-            
             children.size = 0;
             parents.size = 0;
 
             // --- SELEÇÃO ---
-            parents = select_parents(population, parents);
+            parents = select_parents(population, parents, POP_SIZE/2);
+
             // --- CRUZAMENTO ---
             children = crossover(parents, children);
+
             // --- MUTATION ---
             children = mutation(parents, children);
+
             // --- INVERSION ---
             // ???
             // --- FITNEES ---
@@ -116,7 +120,5 @@ int main(){
         fclose(gnuplot);
     }
 
-    print_individuals(population, 5);
-    
     return 0;
 }
