@@ -2,7 +2,7 @@
 #include "headers/insights.h"
 #include "headers/holland.h"
 
-#define LOOPS 100
+#define LOOPS 1000
 
 #define GRAPH 0
 
@@ -109,6 +109,7 @@ int main(){
         fprintf(gnuplot, "set label 'MAX: %.2f' at graph 0.1, graph 0.90 left\n", summary.max);
         fprintf(gnuplot, "set label 'MEAN: %.2f' at graph 0.1, graph 0.87 left\n", summary.mean);
         fprintf(gnuplot, "set label 'MEDIAN: %.2f' at graph 0.1, graph 0.84 left\n", summary.median);
+        fprintf(gnuplot, "set label 'VAR: %.2f' at graph 0.1, graph 0.81 left\n", summary.var);
 
         fprintf(gnuplot, "set label 'TIME: %.2f seconds' at graph 0.2, graph 0.96 left\n", cpu_time_used);
 
@@ -119,6 +120,6 @@ int main(){
         fflush(gnuplot);
         fclose(gnuplot);
     }
-
+    
     return 0;
 }
