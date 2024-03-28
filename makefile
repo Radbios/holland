@@ -1,5 +1,5 @@
 all: 
-	gcc src/main.c -o program
+	gcc src/main.c -o program -lm
 	./program
 
 clear:
