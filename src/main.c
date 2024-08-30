@@ -2,9 +2,9 @@
 #include "headers/insights.h"
 #include "headers/holland.h"
 
-#define LOOPS 1000
+#define LOOPS 100000
 
-#define GRAPH 0
+#define GRAPH 1
 
 #define FILENAME "execution_x_generation2"
 #define TITLE "Execution x Generation (without rules)"
@@ -120,6 +120,19 @@ int main(){
         fflush(gnuplot);
         fclose(gnuplot);
     }
+
+    // FILE *saude;
+
+    // saude = fopen("dataset/saude.csv", "r");
+
+    // print_header_csv(saude);
+
+    // FILE *data2;
+
+    // data2 = fopen("dataset/data.csv", "r");
+    // Dataset dataset = load_dataset(data2, " ");
     
+    // printf("row: %zu\ncolunm: %zu\n", dataset.rows, dataset.columns);
+
     return 0;
 }

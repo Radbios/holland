@@ -27,6 +27,38 @@ typedef struct{
         max;
 } Statistics;
 
+typedef struct{
+    char *dataset;
+    size_t columns;
+    size_t rows;
+} Dataset;
+
+Dataset load_dataset(FILE *file, char *separator);
+
+Dataset load_dataset(FILE *file, char *separator)
+{
+    char row[512];
+    Dataset dataset;
+    size_t rows = 0, colunms = 0;
+    
+    while (fgets(row, sizeof(row), file))
+    {
+        char *tok = strtok(row, separator);
+
+        for (size_t i = 1; tok != NULL; i++)
+        {
+            if(i > colunms) colunms = i;
+            tok = strtok(NULL, separator);
+        }
+        
+        rows++;
+    }
+    dataset.columns = colunms;
+    dataset.rows = rows;
+
+    return dataset;
+}
+
 float calculate_dp(float var)
 {
     return pow(var, 2);
@@ -66,7 +98,34 @@ Statistics calculate_statistics(float dataset[], int length)
     else summary.median = dataset[length/2];
     
     return summary; 
-} 
+}
+
+char *remove_char(char *string, char ch)
+{
+    int len = strlen(string), str_count = 0;
+    for (size_t i = 0; i < len; i++)
+    {
+        if(string[i] != ch)
+        {
+           string[str_count] = string[i];
+           str_count++;
+        }
+    }
+    string[str_count] = '\0';
+    return string;
+}
+
+void print_header_csv(FILE *file)
+{
+    char row[255];
+    char *header = fgets(row, sizeof(row), file);
+    char *tok = strtok(row, ";");
+    for (size_t i = 0; tok != NULL; i++)
+    {
+        printf("COL [%zu]: %s\n", i, remove_char(tok, '"'));
+        tok = strtok(NULL, ";");
+    }
+}
 
 void print_summary(Statistics summary)
 {
